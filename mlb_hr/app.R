@@ -15,6 +15,7 @@ library(shinyjs)
 
 
 # https://paulsprouse.shinyapps.io/shiny_project/ ####
+# http://128.199.0.115:3838/mlb_hr/ ####
 # data connection to db and Load steroid list####
 connector <- function(con, db) {
   con <- dbConnect(SQLite(), db)
@@ -148,6 +149,11 @@ teams_adj <-
   mutate(adj_avg_HR = (avg_HR / avg_G * 162),
          adj_avg_R = (avg_R / avg_G * 162))
 col_offset <- 'column(9, offset = 1'
+sty = "font-size: 200%;"
+sty_1 ="text-align:justify;color:black;background-color:lavender;padding:15px;border-radius:10px"
+sty_2 ="text-align:justify;color:black;background-color:papayawhip;padding:15px;border-radius:10px"
+sty_3 ="text-align:justify;color:black;background-color:papayawhip;padding:15px;border-radius:10px;
+font-size:15px"
 # end of data setup
 # ** UI ** ####
 ui <- navbarPage(
@@ -158,65 +164,91 @@ ui <- navbarPage(
   title = "MLB - Hitting With Juice",
   
   # Word Cloud ####
-  tabPanel(
-    "Word Cloud",
-    fluidPage(
-      fluidRow(column(1),
-      fluidRow(column(10, offset = 1,
-      titlePanel(h1("Everyone Loves The Long Ball",
-                    align = "center")),
-      br(),
-      fluidRow(column(10, offset = 1,
-        h4('In the last 25 years, Homeruns are up for MLB, but individual Homerun records 
-           are not falling like the were the first 10 years of this trend! Why is this? 
-           Why were they up in the first place?'),
-        br(),
-        h4('What is different now? What is different the last 25 years from the previous 75 years?'),
-        h4('So many questions, so few answers! - until now that is...'), br(),
-        h4("First, for those that don't follow baseball, a little refresher on what I'm talking about"),
-        h4("From 1927 until 1961, the Homerun single season record was held by Babe Ruth - 
-           60 in a season! the unbeatable record."),
-        h4("Prior to that, it was Babe Ruth with multiple seasons of 40 - 59 homeruns."),br(),
-        h4("In 1961, Roger Maris and Mickey Mantle battled for the homerun title, they were trying 
-           to become the first to top 60 homeruns in a season!"),
-        h4('Roger Maris pulled through and hit 61 homeruns in 1961. That record stood until 1998 - 
-           both Mark McGwire and Sammy Sosa hit over 61 homers - 70 McGwire and 66 Sosa.'), br(),
-        h4("But the story starts before that, starting in 1995 players started pushing the 50 Homerun mark.
+  tabPanel(icon("home"), 
+           fluidPage(fluidRow(
+             column(1),
+             fluidRow(
+               column(
+                 10,
+                 offset = 1,
+                 titlePanel(h1("Everyone Loves The Long Ball",
+                               align = "center")),
+                 br(),
+                 fluidRow(
+                   column(
+                     10,
+                     offset = 1,
+                     h4(
+                       'In the last 25 years, Homeruns are up for MLB, but individual Homerun records
+           are not falling like the were the first 10 years of this trend! Why is this?
+           Why were they up in the first place?', style= sty_1),
+                     br(),
+                     h4(
+                       'What is different now? What is different the last 25 years from the previous 75 years?',
+                       'So many questions, so few answers! - until now that is...', style=sty_2),
+                     br(),
+                     h4(
+                       "First, for those that don't follow baseball, a little refresher on what I'm 
+                       talking about From 1927 until 1961, the Homerun single season record was 
+                       held by Babe Ruth - 60 in a season! the unbeatable record. Prior to that, 
+                       it was Babe Ruth with multiple seasons of 40 - 59 homeruns.", style = sty_1),
+                     br(),
+                     h4(
+                       "In 1961, Roger Maris and Mickey Mantle battled for the homerun title, 
+                       they were trying to become the first to top 60 homeruns in a season! 
+                       Roger Maris pulled through and hit 61 homeruns in 1961. That record stood 
+                       until 1998 - both Mark McGwire and Sammy Sosa hit over 61 homers - 70 McGwire 
+                       and 66 Sosa.", style = sty_2),
+                     br(),
+                     h4(
+                       "But the story starts before that, starting in 1995 players started pushing the 50 Homerun mark.
             In the history of baseball until 1995 only 13 times had 50 HR's been matched or beat! 100+ years, 13 times...
-           What follows in the last 25 years, is that number being beaten 28 times! "),
-        br(),
-        h4("The start of the steroid era!", align='center'), br()
-      )),
-      fluidRow(column(9, offset = 2,
-                      h5('- Stats are from Baseball Reference'),
-        h5('- Steroid references are from bleacher report')
-      )),
-      
-      
-      fluidRow(column(7, offset = 2,
-        h5(
-          '- Any perceived accusation of steroid use or basic cheating, is purely coincidence! No such accusations are made by anyone but the DATA!',
-          align = 'left'
-        ))
-      ),fluidRow(column(7, offset = 2,
-                        h5(
-                          '- The aurthor of this app has no knowledge of anyone using steroids,
+           What follows in the last 25 years, is that number being beaten 28 times! ", style = sty_1),
+                     br(),
+                     h4("The start of the steroid era!", align = 'center'),
+                     br()
+                   )
+                 ),
+                 fluidRow(column(
+                   9,
+                   offset = 2,
+                   h5('- Stats are from Baseball Reference'),
+                   h5('- Steroid references are from bleacher report')
+                 )),
+                 
+                 
+                 fluidRow(column(
+                   7,
+                   offset = 2,
+                   h5(
+                     '- Any perceived accusation of steroid use or basic cheating, is purely coincidence! No such accusations are made by anyone but the DATA!',
+                     align = 'left'
+                   )
+                 )),
+                 fluidRow(column(
+                   7,
+                   offset = 2,
+                   h5(
+                     '- The aurthor of this app has no knowledge of anyone using steroids,
                         nor does he accuse anyone of using steroids!',
-                          align = 'left'
-                        )),br()
-      ),
-      fluidRow(column(7, offset = 2,
-                      h4("- Players that have hit more than 40 Homeruns in a Season! -",
-                         align = "left"))
-      ),
-      fluidRow(
-        wordcloud2Output("word_cloud", height = "600px", width = "95%"),
-        align = "center"
-      ),
-      br(),
-      p()
-    ))))
-  ),
+                     align = 'left'
+                   )
+                 ), br()),
+                 fluidRow(column(
+                   7,
+                   offset = 2,
+                   h4("- Players that have hit more than 40 Homeruns in a Season! -",
+                      align = "left")
+                 )),
+                 fluidRow(
+                   wordcloud2Output("word_cloud", height = "600px", width = "95%"),
+                   align = "center"
+                 ),
+                 br(),
+                 p()
+               )
+             )
+           ))),
   # Tab Long Ball ####
   tabPanel(
     "The Long Ball",
@@ -229,73 +261,70 @@ ui <- navbarPage(
     ),
     
     fluidPage(
-      titlePanel("MLB Stats"),
+      titlePanel("MLB Homerun Stats - Frequency of Batters Hitting Above a min # of HR's in a Time Peroid "),
       sidebarLayout(
-        sidebarPanel(
+        sidebarPanel(title= 'Chart Controls',fluidRow(), br(), fluidRow(br()),
           sliderInput(
             "bins",
-            "Number of bins:",
+            tags$p("Number of bins:", style = sty),
             min = 5,
             max = 40,
             value = 22
           ),
           sliderInput(
             "min_hr",
-            "Min Number of Homeruns",
+            tags$p("Min Number of Homeruns", style = sty),
             min = 10,
             max = 60,
             value = 45
           ),
           checkboxInput(
             inputId = "addmedian",
-            label = "Add median line",
+            label = tags$p("Add median line", style = sty),
             value = FALSE
           ),
           checkboxInput(
             inputId = "addsteroidyears",
-            label = "Add Lines for Steroid Years",
+            label = tags$p("Add Lines for Steroid Years", style = sty),
             value = FALSE
           ),
           checkboxInput(
             inputId = "per500ab",
-            label = "Per 500 At Bats",
+            label = tags$p("Per 500 At Bats", style = sty),
             value = FALSE
           ),
           checkboxInput(
             inputId = "per_game_500ab",
-            label = "Scales per 500 At Bats and if 30 Teams",
+            label = tags$p("Scales per 500 At Bats and if 30 Teams", style = sty),
             value = FALSE
           ),
           width = 3
         ),
         mainPanel(
+          fluidRow(h2("Hitting The Long Balls",
+                      align = "center", style = "color:red")),
+          br(),
+          fluidRow(h3(textOutput("notes"), style = "color:PowderBlue")),
+          fluidRow(h3(textOutput("notes1"), style = "color:PowderBlue"),
+                   br(2)),
           fluidRow(
-            h1("Hitting The Long Balls",
-            align = "center")), br(),
-          fluidRow(
-            h3(textOutput("notes"))
-            ),
-          fluidRow(
-            h3(textOutput("notes1")),
-            br()),
-          fluidRow(
-            h4("The Steroid Era is said to be from mid 90's until mid 2000's"),
-            h4('estimates are said to be from 25% to over 60%+ of all players using.'),
-            h4(
-              "Does this explain the jump in HR's? Are players still hitting HR's at a high Rate?"
-            )),
+            h4("The Steroid Era is said to be from mid 90's until mid 2000's estimates are said to be from 25% to over 60%+ 
+               of all players using during that time period Does this explain the jump in HR's? Are players 
+               still hitting HR's at a high Rate?", style = sty_1)
+          ),
           width = 9,
           fluidRow(),
           fluidRow(plotOutput("distPlot"), width = 9)
-        )))
+        )
+      )
+    )
   ),
   # Homeruns Stacked ####
   tabPanel(
     "Homeruns Stacked",
     fluidPage(
-      fluidRow(h1(
-        "Hitting the longball throughout their career", 'center'
-      )),
+      fluidRow(column(9, offset=2, h1(
+        "Hitting the longball throughout their career"))),
       fluidRow(
         column(width = 1),
         column(
@@ -303,8 +332,7 @@ ui <- navbarPage(
           checkboxInput(
             inputId = "showHR",
             label = "Show HR's in Chart",
-            value = F
-          )
+            value = F)
         ),
         column(
           width = 3,
@@ -315,28 +343,24 @@ ui <- navbarPage(
             max = 800,
             value = c(550, 800),
             step = 50,
-            sep = ''
-          )
+            sep = '')
         ),
-        column(5, 
-               h5(
-                   "One of the things that caught my attention,
+        column(
+          5,
+          h5(
+            "One of the things that caught my attention,
                         is the number of HR's by players late in their careers
-                        and played since 1995 - Another attention grabber, 
+                        and played since 1995 - Another attention grabber,
                         the amount of over 60 HR years are all
-                        bunched around the same years"
-               ),
-               )
+                        bunched around the same years", style = sty_2)
+        )
       ),
-      fluidRow(column(11, offset=1, plotOutput("plot_player"))),
-      
-      
+      fluidRow(column(11, offset = 1, plotOutput("plot_player"))),
     )
   ),
   # Team Trends ####
   tabPanel(
     "Team Trends",
-    
     titlePanel(
       h1("Average HR and Runs per team adjusted for 162 games", align = 'center')
     ),
@@ -345,7 +369,7 @@ ui <- navbarPage(
         4,
         sliderInput(
           "s_year",
-          "Start/End Year",
+          tags$p("Start / End Year", style = sty),
           min = 1920,
           max = 2020,
           value = c(1919, 2021),
@@ -357,12 +381,12 @@ ui <- navbarPage(
         4,
         checkboxInput(
           inputId = "addruns",
-          label = "Add average runs per team per season",
+          label = tags$p("Average runs per team per season", style = sty),
           value = FALSE
         ),
         checkboxInput(
           inputId = "addavg",
-          label = "Add batting average time 1000",
+          label = tags$p("Batting average times 1000", style = sty),
           value = FALSE
         )
       ),
@@ -370,14 +394,14 @@ ui <- navbarPage(
         4,
         sliderInput(
           "HRn",
-          "Number of HRs:",
+          tags$p("Number of HRs:", style = sty),
           min = 10,
           max = 50,
           value = 35
         ),
         sliderInput(
           "AGE_",
-          "Age of Batter Hitting HR:",
+          tags$p("Age of Batter Hitting HR:", style = sty),
           min = 18,
           max = 50,
           value = 20
@@ -388,30 +412,34 @@ ui <- navbarPage(
                     plotOutput('team_plots')),
              column(5, plotOutput("hex"))),
     br(),
-    p(
+    fluidRow(column(7, offset=2,
+    h5(
       "-> over the 1960's the rules had been relaxed to help the pitchers by
-          creating a bigger strike zone"
-    ),
-    p("1968 was called year of the pitcher because they were so dominate"),
-    p("after 68 they lowered the pitching mound from 15 to 10 inches"),
-    p("and the strike zone was lowered from top of the shoulders to armpits"),
-    p("-> 1981 only 107 games strike year"),
-    p("-> 1994 only 114 games strike year"),
-    p("-> 1995 only 144 games strike year"),
-    p("-> 1994 and 2005 are the red dotted lines - this is era in question"),
-    p(
+          creating a bigger strike zone 1968 was called year of the pitcher because they were 
+          so dominate after 68 they lowered the pitching mound from 15 to 10 inches and the 
+          strike zone was lowered from top of the shoulders to armpits", style = sty_1))),
+    fluidRow(column(5, offset=3, 
+                    tags$ul(style=sty_3,
+    tags$li("-> 1981 only 107 games strike year"),
+    tags$li("-> 1994 only 114 games strike year"),
+    tags$li("-> 1995 only 144 games strike year"),
+    tags$li("-> 1994 and 2005 are the red dotted lines - this is era in question"),
+    tags$li(
       " - - - All years were adjusted to represent the same number of games, 162 - - -"
-    )
+    ))))
   ),
   # HR over age 31####
   tabPanel("HRs Over Age 31",
+           titlePanel(
+             h1("Career HR's Before 32 Compared to After 32", align = 'center')
+           ),
            fluidPage(
              fluidRow(
                column(
                  3,
                  sliderInput(
                    "t_HR",
-                   "Total HR",
+                   tags$p("Total Min HR - Career", style = sty),
                    0,
                    800,
                    300,
@@ -424,7 +452,7 @@ ui <- navbarPage(
                  3,
                  checkboxInput(
                    "totHR_HRpre31",
-                   "Toggle bewteem total HRs or HR's before 32 on Y axis",
+                   tags$p("Toggle bewteem total HRs or HR's before 32 on Y axis", style = sty),
                    FALSE
                  )
                ),
@@ -432,21 +460,37 @@ ui <- navbarPage(
                       verbatimTextOutput("counts"))
              ),
              fluidRow(column(12, plotOutput("over_31")),
-                      column(9, DT::dataTableOutput("over31_tb")))
+                      column(12, div(DT::dataTableOutput("over31_tb"), style = "font-size:180%")))
            )),
   # Summary ####
   tabPanel(
     "Summary",
     fluidPage(
+      fluidRow(column(3,
       sliderInput(
         "HR_Sum",
-        "Min Number of HR:",
+        tags$p("Min Number of HR:", style = sty),
         min = 5,
         max = 50,
         value = 30
+      )),
+      column(3,
+      sliderInput(
+        "years_",
+        tags$p("Years To Seperate:", style = sty),
+        min = 1920,
+        max = 2020,
+        value = c(1994, 2005),
+        step = 5,
+        sep = "")),
+      column(3,
+      checkboxInput(
+        inputId = "use_list",
+        label = tags$p("Based on the list", style = sty),
+        value = FALSE))
       ),
       fluidRow(),
-      DT::dataTableOutput("summary")
+      div(DT::dataTableOutput("summary"), style = "font-size:180%")
     )
   ),
   # Tab Per 500 ####
@@ -469,13 +513,6 @@ ui <- navbarPage(
       fluidRow(column(12, DT::dataTableOutput("per500")))
     )
   ),
-  # tabPanel("by Time Period",
-  #          fluidPage(
-  #              titlePanel("Breaking it down by time period"),
-  #              tabsetPanel(
-  #                  tabPanel("Stacked Barplot", plotOutput("stacked_plot")),
-  #                  tabPanel("Wrapped Barplot", plotOutput("wrapped_plot"))))
-  #          ),
   # Age at best ####
   tabPanel(
     "Age At Best",
@@ -643,11 +680,7 @@ server <- function(input, output) {
     DT::renderDataTable({
       DT::datatable(
         sum_top_c  %>% filter(n_yrs_top > 3) %>% select(
-          -"Max_HR_T",
-          -"Max_HR(500)-T",
-          -"Mean_HR(500)-T",
-          -"Mean_AB",
-          -"Min_HR(500)-T"
+          -"Max_HR_T",-"Max_HR(500)-T",-"Mean_HR(500)-T",-"Mean_AB",-"Min_HR(500)-T"
         ) %>% arrange(desc(percent_after_31)),
         rownames = FALSE,
         options = list(
@@ -721,7 +754,7 @@ server <- function(input, output) {
       filter(between(tot_hr, input$totHR_sld[1], input$totHR_sld[2])) %>%
       group_by(playerID) %>% arrange(age) %>%
       ggplot(aes(
-        x = reorder(paste(playerID, nameLast, theList, sep = ' - '), -tot_hr),
+        x = reorder(paste(playerID, nameLast, theList, sep = ' - '),-tot_hr),
         y = HR,
         fill = HR,
         height = "1500px"
@@ -753,22 +786,6 @@ server <- function(input, output) {
       p
     }
   }, height = 700)
-  # Stacked_plot ####
-  # output$stacked_plot <- renderPlot({
-  #     by_bins %>% filter(HR_bin != "under 30") %>%
-  #         ggplot(aes(
-  #             fill = HR_bin,
-  #             y = n,
-  #             x = y_bin,
-  #             label = n
-  #         )) +
-  #         geom_bar(position = "stack", stat = "identity") +
-  
-  #         ggtitle("MLB Long Balls!") +
-  #         ylab("Number of palyers that hit at least 30 homeruns") +
-  #         xlab("Four different periods of baseball (20 years, 50 years, 11 years, and 14 years") +
-  #         geom_text(size = 4, position = position_stack(vjust = 0.5))
-  # })
   # wrapped_plot ####
   output$wrapped_plot <- renderPlot({
     by_bins %>% filter(HR_bin != "under 30") %>%
@@ -780,7 +797,7 @@ server <- function(input, output) {
       )) +
       geom_bar(position = "dodge", stat = "identity") +
       #            #scale_fill_viridis(discrete = T, option = "E") +
-      facet_wrap( ~ y_bin) +
+      facet_wrap(~ y_bin) +
       ggtitle("MLB Long Balls!") +
       ylab("Number of palyers that hit at least 30 homeruns") +
       xlab("Four different periods of baseball (20 years, 50 years, 11 years, and 14 years") +
@@ -818,8 +835,8 @@ server <- function(input, output) {
         scale_y_continuous(
           "Average HR per Team",
           breaks = seq(25, 275, 50),
-          sec.axis = sec_axis(~ . + 500,
-                              name = "Average Runs Scored per Team")
+          sec.axis = sec_axis( ~ . + 500,
+                               name = "Average Runs Scored per Team")
         )
     }
     p <- p + geom_vline(
@@ -906,12 +923,16 @@ server <- function(input, output) {
   # Summary ####
   output$summary <- DT::renderDataTable({
     DT::datatable(
-      stats %>% filter(HR > input$HR_Sum) %>% select(theList, HR, weight, num_years, HR_after_31, HR_per_500) %>%
-        group_by(theList) %>% skim()
-    ) %>% formatStyle('theList',
+      stats %>% filter(HR > input$HR_Sum) %>% 
+        mutate(in_range=ifelse(between(yearID, input$years_[1], input$years_[2]),T, F)) 
+      %>% select(in_range, age, weight, num_years, HR, HR_per_500, HR_after_31) %>%
+        group_by(in_range) %>% skim() %>% select(-n_missing, -complete_rate), options = list(dom = 't')) %>% formatStyle('in_range',
                       target = 'row',
-                      backgroundColor = styleEqual(c(0, 1), c("#eb6e1f ", "#00AFBB")))
+                      backgroundColor = styleEqual(c(0, 1), c("#eb6e1f ", "#00AFBB"))) %>% 
+      formatRound(c('numeric.mean', 'numeric.sd', 'numeric.p0', 'numeric.p25', 'numeric.p50', 
+                    'numeric.p75', 'numeric.p100'),1) 
     
+  # ifelse((input$use_list), ifelse(theList='TRUE',T, F)), (  
   })
   
   # Hex ####
@@ -961,7 +982,6 @@ server <- function(input, output) {
   # Starts with these Tabs hidden ####
   observe(hideTab(inputId = "tabs", target = 'Code'))
   observe(hideTab(inputId = "tabs", target = 'Age At Best'))
-  observe(hideTab(inputId = "tabs", target = 'by Time Period'))
   observe(hideTab(inputId = "tabs", target = 'Data Frame For More Info'))
   observe(hideTab(inputId = "tabs", target = 'OddsProb'))
   
@@ -969,7 +989,6 @@ server <- function(input, output) {
   observeEvent(input$hideTab, {
     hideTab(inputId = "tabs", target = 'Code')
     hideTab(inputId = "tabs", target = 'Age At Best')
-    hideTab(inputId = "tabs", target = 'by Time Period')
     hideTab(inputId = "tabs", target = 'Data Frame For More Info')
     hideTab(inputId = "tabs", target = 'OddsProb')
   })
@@ -977,7 +996,6 @@ server <- function(input, output) {
   observeEvent(input$showTab, {
     showTab(inputId = "tabs", target = 'Code')
     showTab(inputId = "tabs", target = 'Age At Best')
-    showTab(inputId = "tabs", target = 'by Time Period')
     showTab(inputId = "tabs", target = 'Data Frame For More Info')
     showTab(inputId = "tabs", target = 'OddsProb')
   })
